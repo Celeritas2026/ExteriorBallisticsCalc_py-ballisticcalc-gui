@@ -14,6 +14,12 @@
 | 4 | 风偏分析 | 多弹药风偏曲线 | 对比表 6 列 / 详细表 5 列（复选框切换） |
 | 5 | 阻力分析 | 多弹药阻力(Mach)曲线 + dF/dM 导数副轴 + G7 极值点 + 曲线交点 | 6 列数据表（BC 自适应带阻力表类型前缀） |
 
+### 界面截图
+
+| Tab 1: 单条弹道 | Tab 2: 弹道分析 | Tab 3: 动能分析 | Tab 4: 风偏分析 | Tab 5: 阻力分析 |
+|---|---|---|---|---|
+| ![Tab 1](screenshots/tab1.png) | ![Tab 2](screenshots/tab2.png) | ![Tab 3](screenshots/tab3.png) | ![Tab 4](screenshots/tab4.png) | ![Tab 5](screenshots/tab5.png) |
+
 ### 弹药库
 
 - JSON 持久化，多弹药批量计算
