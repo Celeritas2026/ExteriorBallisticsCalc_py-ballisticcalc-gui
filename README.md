@@ -136,7 +136,7 @@ python main.py
 
 ## English {#english}
 
-# ExteriorBallisticCalc
+# ExteriorBallisticsCalc
 
 A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](https://github.com/o-murphy/py-ballisticcalc). Features a native Tkinter interface and publication-quality interactive [Matplotlib](https://matplotlib.org/) charts — built for precision shooting and ammunition comparison scenarios.
 
