@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# PyInstaller
+dist/
+build/
+*.spec
+!BallisticCalc.spec
+
+# 备份
+副本/
+app2 - 副本 (16).py
+
+# Claude
+.claude/
+
+# 第三方
+py-ballisticcalc-2.2.10/
