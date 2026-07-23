@@ -1,4 +1,4 @@
-# 弹道计算器
+# 外弹道计算器
 
 基于 [py-ballisticcalc 2.2.10](https://github.com/o-murphy/py-ballisticcalc) 的桌面外弹道计算应用。Tkinter 原生界面 + Matplotlib 学术风格交互图表，面向精确射击与弹药对比场景。
 
@@ -136,7 +136,7 @@ python main.py
 
 ## English {#english}
 
-# BallisticCalc
+# ExteriorBallisticCalc
 
 A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](https://github.com/o-murphy/py-ballisticcalc). Features a native Tkinter interface and publication-quality interactive [Matplotlib](https://matplotlib.org/) charts — built for precision shooting and ammunition comparison scenarios.
 
