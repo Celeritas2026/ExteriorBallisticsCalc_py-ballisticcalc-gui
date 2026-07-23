@@ -2,6 +2,8 @@
 
 基于 [py-ballisticcalc 2.2.10](https://github.com/o-murphy/py-ballisticcalc) 的桌面外弹道计算应用。Tkinter 原生界面 + Matplotlib 学术风格交互图表，面向精确射击与弹药对比场景。
 
+> 🇬🇧 **English readers:** scroll down for the [English version](#english).
+
 ## 功能概览
 
 ### 5 个分析 Tab
@@ -129,3 +131,141 @@ python main.py
 ```
 
 最低 Python 3.10。`py-ballisticcalc-exts` 可选，缺少时自动回退到 Python 版引擎。
+
+---
+
+## English {#english}
+
+# BallisticCalc
+
+A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](https://github.com/o-murphy/py-ballisticcalc). Features a native Tkinter interface and publication-quality interactive [Matplotlib](https://matplotlib.org/) charts — built for precision shooting and ammunition comparison scenarios.
+
+> **Note:** The UI is currently Chinese-only. English localization may come in a future release.
+
+## Features
+
+### 5 Analysis Tabs
+
+| Tab | Name | Chart | Data Table |
+|-----|------|-------|------------|
+| 1 | Single Trajectory | CFD rainbow-gradient trajectory + velocity secondary axis | 16-column detail table (color-coded: zero-orange / apex-green / transonic-blue) |
+| 2 | Trajectory Analysis | Multi-ammo overlay trajectory + velocity secondary axis + curve intersections | 13-column comparison table (sectional kinetic energy, recoil impulse, PBR 0.3/1.0/1.5 m, supersonic range) |
+| 3 | Energy Analysis | Multi-ammo kinetic energy curves + 3 Mach markers + curve intersections | 9-column analysis table (sectional kinetic energy with distance interpolation) |
+| 4 | Wind Drift | Multi-ammo wind drift curves | Comparison 6 columns / Detail 5 columns (checkbox toggle) |
+| 5 | Drag Analysis | Multi-ammo drag (Mach) curves + dF/dM derivative secondary axis + G7 extrema + curve intersections | 6-column data table (BC prefixed with drag table type) |
+
+### Screenshots
+
+| Tab 1: Single | Tab 2: Analysis | Tab 3: Energy | Tab 4: Wind | Tab 5: Drag |
+|---|---|---|---|---|
+| ![Tab 1](screenshots/tab1.png) | ![Tab 2](screenshots/tab2.png) | ![Tab 3](screenshots/tab3.png) | ![Tab 4](screenshots/tab4.png) | ![Tab 5](screenshots/tab5.png) |
+
+### Ammo Library
+
+- JSON persistence, multi-ammo batch calculation
+- Bidirectional sync: library ↔ calculation list click linkage
+- Add / Duplicate / Delete / Save / Import / Remove / Clear
+- List rows show drag table type + BC + bullet weight + muzzle velocity
+
+### Real-time Parameters
+
+- **Muzzle energy** / **Recoil impulse** / **Sectional kinetic energy** (J/cm²) / **Sectional density** (SD, lb/in²) live calculation
+- BC ↔ i (form factor) bidirectional linked editing
+- Sectional kinetic energy supports distance interpolation in Tabs 2/3
+
+### Chart Interaction
+
+- Blit-accelerated hover across all 5 tabs, 60 ms debounce redraw
+- Hover crosshair + tooltip, click to highlight and snap to key points
+- Auto-detection of multi-curve intersections, blend-color markers (excluded from legend)
+- Localized Matplotlib toolbar (including chart copy to clipboard)
+- Tab 1 display options: select-all linking, independent toggles for apex/transonic/zero/bore-line/sight-line/velocity-line
+
+### Advanced Ballistics
+
+- **Apex lock**: given max ordinate, binary-search reverse solve for zero distance
+- **PBR**: 3 target heights (0.3 / 1.0 / 1.5 m)
+- **Supersonic range**: find distance where Mach drops to 1.2
+- **Vacuum mode**: no-drag simulation
+- **ICAO standard atmosphere**: altitude-linked temperature/pressure, one-click reset
+- **Custom drag table**: arbitrary Mach-CD data point input
+- **Look angle**: uphill/downhill shooting support
+- **Twist rate + direction**: left/right-hand twist selection
+
+### Universal Table Features
+
+- **Right-click hide columns**: all 7 Treeviews, native checkbutton menu
+- **Adaptive column width**: auto-fit based on header + first row + last row
+
+### Unit System
+
+3 unit systems — Metric / Imperial / Mixed, covering all 16 PreferredUnits slots. UI labels switch with unit selection.
+
+## Library Utilization
+
+### Fully Leveraged ✓
+
+| Category | Library Feature | Usage |
+|----------|----------------|-------|
+| Drag Models | 9 drag tables + custom Mach-CD | All exposed in UI dropdown |
+| Multi-BC | `DragModelMultiBC` + `BCPoint` | Full UI (dynamic row add/remove) |
+| Integration Engines | Euler / RK4 / SciPy(odeint) / Velocity Verlet | All 6 exposed in dropdown |
+| Cython | `CythonizedRK4IntegrationEngine` / `CythonizedEulerIntegrationEngine` | **RK4 C++ variant set as default** |
+| Ammo | `Ammo` (mv, powder_temp, temp_modifier, use_powder_sensitivity) | Fully wired |
+| Weapon | `Weapon` (sight_height, twist) | Fully wired, with twist direction |
+| Atmosphere | `Atmo`, `Vacuum`, ICAO standard atmosphere | Fully wired, altitude-linked |
+| Wind | `Wind` | Single-layer wind |
+| Shot | `Shot` (look_angle) | Look angle input for non-level shooting |
+| Calculator | `Calculator` (set_weapon_zero, barrel_elevation_for_target, fire) | Fully used |
+| Results | All 16 `TrajectoryData` fields | All displayed in data tables |
+| Interpolation | `HitResult.get_at()` | Heavily used across all 5 tabs |
+| Units | All 16 `PreferredUnits` slots | 3 unit systems with dynamic switching |
+
+### Intentionally Excluded ✗
+
+#### Physical Effects
+
+| Library Feature | Reason for Exclusion |
+|-----------------|---------------------|
+| Coriolis force | Requires lat/lon/azimuth input; ~10–30 cm effect beyond 800 m; deferred |
+| Multi-layer wind zones | Rare use case, UI complexity not justified |
+| Cant angle | Niche scenario |
+| Zero-atmosphere separation | Niche scenario (sea-level zero → mountain shooting) |
+
+#### Engine Advanced Features
+
+| Library Feature | Reason for Exclusion |
+|-----------------|---------------------|
+| Lofted trajectory `find_zero_angle(lofted=True)` | Mortar/howitzer domain, not small arms |
+| Max range `find_max_range()` | Not practically useful |
+| Engine config tuning `BaseEngineConfig` | Defaults cover 99.9% of cases; exposing to users adds confusion |
+| Timestep recording `fire(time_step=N)` | Only needed for near-vertical trajectories |
+| Dense output `fire(dense_output=True)` | PCHIP interpolation accuracy is sufficient |
+| SciPy method switch DOP853/BDF/LSODA | RK4 is adequate for ballistic problems |
+
+#### Built-in Convenience Methods
+
+| Library Method | Reason for Exclusion |
+|----------------|---------------------|
+| `HitResult.danger_space()` | Different semantics from custom PBR implementation |
+| `TrajectoryData.formatted()` / `.in_def_units()` | Returns unnamed tuple; magic indices reduce readability |
+| `Sight` system | Was fully wired but had no output sink; trimmed to `sight_height` only |
+| `Ammo.calc_powder_sens(v1, t1)` | Most users lack dual temperature/velocity data |
+| `BaseIntegrationEngine.find_apex()` | Library already tags APEX during integration |
+
+#### Visualization & Utilities
+
+| Library Feature | Reason for Exclusion |
+|-----------------|---------------------|
+| `hit_result_as_plot()` | Cannot inject into TkAgg; custom rendering is superior (CFD rainbow, Chinese labels, blit interaction) |
+| `hit_result_as_dataframe()` | Target output is `ttk.Treeview` (bucket-colored rows, Chinese headers), not DataFrame |
+| `enable_file_logging()` | App has no logging system; dialogs + status bar suffice |
+
+## Install & Run
+
+```bash
+pip install py-ballisticcalc==2.2.10 py-ballisticcalc-exts==2.2.10
+python main.py
+```
+
+Requires Python 3.10+. `py-ballisticcalc-exts` is optional; missing it falls back to pure-Python engines.
