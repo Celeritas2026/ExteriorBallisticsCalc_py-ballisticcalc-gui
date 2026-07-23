@@ -134,7 +134,7 @@ python main.py
 
 ---
 
-## English {#english}
+## English
 
 # ExteriorBallisticsCalc
 
