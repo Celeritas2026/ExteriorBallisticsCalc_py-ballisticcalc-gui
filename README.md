@@ -1,6 +1,6 @@
 # 外弹道计算器
 
-基于 [py-ballisticcalc 2.2.10](https://github.com/o-murphy/py-ballisticcalc) 的桌面外弹道计算应用。Tkinter 原生界面 + Matplotlib 学术风格交互图表，面向精确射击与弹药对比场景。
+基于 [py-ballisticcalc 2.2.10](https://github.com/o-murphy/py-ballisticcalc) 的桌面外弹道计算应用。Tkinter 原生界面 + Matplotlib 学术风格交互图表，面向精确射击与弹药对比场景。[GitHub 仓库](https://github.com/Celeritas2026/ExteriorBallisticsCalc_py-ballisticcalc-gui)
 
 > 🇬🇧 **English readers:** scroll down for the [English version](#english).
 
@@ -131,13 +131,15 @@ python main.py
 
 最低 Python 3.10。`py-ballisticcalc-exts` 可选，缺少时自动回退到 Python 版引擎。
 
+GitHub: [ExteriorBallisticsCalc](https://github.com/Celeritas2026/ExteriorBallisticsCalc_py-ballisticcalc-gui)
+
 ---
 
 ## English
 
 # ExteriorBallisticsCalc
 
-A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](https://github.com/o-murphy/py-ballisticcalc). Features a native Tkinter interface and publication-quality interactive [Matplotlib](https://matplotlib.org/) charts — built for precision shooting and ammunition comparison scenarios.
+A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](https://github.com/o-murphy/py-ballisticcalc). Features a native Tkinter interface and publication-quality interactive [Matplotlib](https://matplotlib.org/) charts — built for precision shooting and ammunition comparison scenarios. [GitHub Repository](https://github.com/Celeritas2026/ExteriorBallisticsCalc_py-ballisticcalc-gui)
 
 > **Note:** The UI is currently Chinese-only. English localization may come in a future release.
 
@@ -267,3 +269,5 @@ python main.py
 ```
 
 Requires Python 3.10+. `py-ballisticcalc-exts` is optional; missing it falls back to pure-Python engines.
+
+GitHub: [ExteriorBallisticsCalc](https://github.com/Celeritas2026/ExteriorBallisticsCalc_py-ballisticcalc-gui)
