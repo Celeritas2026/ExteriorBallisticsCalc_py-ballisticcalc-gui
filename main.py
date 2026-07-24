@@ -130,7 +130,6 @@ class _ChineseToolbar(NavigationToolbar2Tk):
         tmp = tempfile.NamedTemporaryFile(suffix='.png', delete=False)
         try:
             tmp.close()
-            fig.tight_layout(pad=0.5)
             fig.savefig(tmp.name, dpi=150)
             subprocess.run([
                 'powershell', '-command',
