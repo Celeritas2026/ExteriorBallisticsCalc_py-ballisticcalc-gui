@@ -157,7 +157,7 @@ A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](ht
 
 | Tab 1: Single | Tab 2: Analysis | Tab 3: Energy | Tab 4: Wind | Tab 5: Drag |
 |---|---|---|---|---|
-| ![Tab 1](screenshots/tab1.png) | ![Tab 2](screenshots/tab2.png) | ![Tab 3](screenshots/tab3.png) | ![Tab 4](screenshots/tab4.png) | ![Tab 5](screenshots/tab5.png) |
+| ![Tab 1](screenshots/tab1_en.png) | ![Tab 2](screenshots/tab2_en.png) | ![Tab 3](screenshots/tab3_en.png) | ![Tab 4](screenshots/tab4_en.png) | ![Tab 5](screenshots/tab5_en.png) |
 
 ### Ammo Library
 
