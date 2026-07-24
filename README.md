@@ -8,13 +8,13 @@
 
 ### 5 个分析 Tab
 
-| Tab | 名称 | 图表 | 数据表 |
+| Tab | 名称 | 图表 | 表格 |
 |-----|------|------|--------|
-| 1 | 单条弹道 | CFD 彩虹渐变色轨迹图 + 速度副轴 | 16 列详细表（分桶行颜色：归零-橙/顶点-绿/跨音速-蓝） |
-| 2 | 弹道分析 | 多弹药叠加轨迹图 + 速度副轴 + 曲线交点 | 13 列对比表（含截面比动能、后坐冲量、PBR 0.3/1.0/1.5m、超音速距离） |
-| 3 | 动能分析 | 多弹药动能曲线 + 3 个 Mach 点 + 曲线交点 | 9 列分析表（截面比动能支持距离插值） |
-| 4 | 风偏分析 | 多弹药风偏曲线 | 对比表 6 列 / 详细表 5 列（复选框切换） |
-| 5 | 阻力分析 | 多弹药阻力(Mach)曲线 + dF/dM 导数副轴 + G7 极值点 + 曲线交点 | 6 列数据表（BC 自适应带阻力表类型前缀） |
+| 1 | 单条弹道 | 速度渐变色轨迹图 + 速度副轴 | 16 列表格 |
+| 2 | 弹道分析 | 多弹药叠加轨迹图 + 速度副轴 + 曲线交点 | 13 列表格 |
+| 3 | 动能分析 | 多弹药动能曲线 + 3 个 Mach 点 + 曲线交点 | 9 列表格（截面比动能支持距离插值） |
+| 4 | 风偏分析 | 多弹药风偏曲线 | 对比表 6 列 / 5 列表格（复选框切换） |
+| 5 | 阻力分析 | 多弹药阻力(Mach)曲线 + dF/dM 导数副轴 + G7 极值点 + 曲线交点 | 6 列表格 |
 
 ### 界面截图
 
@@ -24,8 +24,7 @@
 
 ### 弹药库
 
-- JSON 持久化，多弹药批量计算
-- 双向同步：弹药库 ↔ 计算列表点击联动
+- 使用JSON保存弹药条目
 - 添加 / 复制 / 删除 / 保存 / 导入 / 移除 / 清空
 - 列表行显示阻力表类型 + BC + 弹重 + 初速
 
@@ -49,7 +48,7 @@
 - **PBR 直射距离**：3 级目标高度 (0.3 / 1.0 / 1.5 m)
 - **超音速距离**：找到 Mach 降至 1.2 的距离
 - **真空模式**：无空气阻力模拟
-- **ICAO 标准大气**：海拔联动温度/气压，一键复位
+- **ICAO 标准大气**：一键注入标准数据
 - **自定义阻力表**：任意 Mach-CD 数据点输入
 - **仰角/俯角**：非水平射击支持
 - **缠距 + 旋向**：左旋/右旋选择
@@ -61,11 +60,11 @@
 
 ### 单位系统
 
-3 种单位制 — 公制 / 英制 / 混合制，16 个 PreferredUnits 槽位全覆盖，UI 标签随单位切换。
+3 种单位制 — 公制 / 英制 / 混合制
 
 ## 源代码库利用率
 
-### 已充分利用 ✓
+### 已充分利用
 
 | 类别 | 库功能 | 使用情况 |
 |------|--------|---------|
@@ -81,16 +80,16 @@
 | 计算 | `Calculator` (set_weapon_zero, barrel_elevation_for_target, fire) | 完整使用 |
 | 结果 | 全部 16 个 `TrajectoryData` 字段 | 全部展示于数据表 |
 | 插值 | `HitResult.get_at()` | 5 个 Tab 都大量使用 |
-| 单位 | `PreferredUnits` 全部 16 个槽位 | 公制/英制/混合 3 种单位制动态切换 |
+| 单位 | `PreferredUnits` 全部 16 个槽位 | 公制/英制/混合 |
 
-### 库有但经分析不采纳 ✗
+### 库有但经分析不采纳
 
 #### 物理效应
 
 | 库功能 | 不采纳原因 |
 |--------|-----------|
-| 科里奥利力 | 需经纬度/射击方位输入，对 >800m 远程有 ~10-30cm 影响，留待后续 |
-| 多层风区 | 多段风距场景低频，UI 复杂度不划算 |
+| 科里奥利力 | 需经纬度/射击方位输入，对 >800m 远程有 ~10-30cm 影响，边缘场景 |
+| 多层风区 | 边缘场景 |
 | 枪械倾斜 (`cant_angle`) | 边缘场景 |
 | 归零大气分离 | 边缘场景（海平面归零→高山射击） |
 
@@ -100,7 +99,7 @@
 |--------|-----------|
 | 高抛弹道 `find_zero_angle(lofted=True)` | 迫击炮/榴弹炮场景，非轻武器 |
 | 最大射程 `find_max_range()` | 非实用场景 |
-| 引擎参数微调 `BaseEngineConfig` | 默认参数覆盖 99.9% 情况，暴露给用户徒增困惑 |
+| 引擎参数微调 `BaseEngineConfig` | 默认参数覆盖绝大部分情况 |
 | 时间步记录 `fire(time_step=N)` | 近垂直弹道才需要 |
 | 密集输出 `fire(dense_output=True)` | 当前 PCHIP 插值精度已足够 |
 | SciPy 方法切换 DOP853/BDF/LSODA | RK4 对弹道问题已充足，边际提升 |
@@ -119,7 +118,7 @@
 
 | 库功能 | 不采纳原因 |
 |--------|-----------|
-| `hit_result_as_plot()` | 自建 Figure 无法注入 TkAgg；远不如自绘（CFD 彩虹渐变、中文标签、blit 交互） |
+| `hit_result_as_plot()` | 自建 Figure 无法注入 TkAgg；不如自绘（速度渐变、中文标签、blit 交互） |
 | `hit_result_as_dataframe()` | 目标输出是 `ttk.Treeview`（含分桶合并、行颜色标记、中文表头），非 DataFrame |
 | `enable_file_logging()` | App 无日志系统，弹窗 + 状态栏即足够 |
 
@@ -146,13 +145,13 @@ A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](ht
 
 ### 5 Analysis Tabs
 
-| Tab | Name | Chart | Data Table |
-|-----|------|-------|------------|
-| 1 | Single Trajectory | CFD rainbow-gradient trajectory + velocity secondary axis | 16-column detail table (color-coded: zero-orange / apex-green / transonic-blue) |
-| 2 | Trajectory Analysis | Multi-ammo overlay trajectory + velocity secondary axis + curve intersections | 13-column comparison table (sectional kinetic energy, recoil impulse, PBR 0.3/1.0/1.5 m, supersonic range) |
-| 3 | Energy Analysis | Multi-ammo kinetic energy curves + 3 Mach markers + curve intersections | 9-column analysis table (sectional kinetic energy with distance interpolation) |
-| 4 | Wind Drift | Multi-ammo wind drift curves | Comparison 6 columns / Detail 5 columns (checkbox toggle) |
-| 5 | Drag Analysis | Multi-ammo drag (Mach) curves + dF/dM derivative secondary axis + G7 extrema + curve intersections | 6-column data table (BC prefixed with drag table type) |
+| Tab | Name | Chart | Table |
+|-----|------|-------|-------|
+| 1 | Single Trajectory | Velocity-gradient trajectory + velocity secondary axis | 16-column table |
+| 2 | Trajectory Analysis | Multi-ammo overlay trajectory + velocity secondary axis + curve intersections | 13-column table |
+| 3 | Energy Analysis | Multi-ammo kinetic energy curves + curve intersections | 9-column table (sectional kinetic energy with distance interpolation) |
+| 4 | Wind Drift | Multi-ammo wind drift curves | Comparison 6 columns / 5 columns (checkbox toggle) |
+| 5 | Drag Analysis | Multi-ammo drag (Mach) curves + dF/dM derivative secondary axis + G7 extrema + curve intersections | 6-column table |
 
 ### Screenshots
 
@@ -162,8 +161,7 @@ A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](ht
 
 ### Ammo Library
 
-- JSON persistence, multi-ammo batch calculation
-- Bidirectional sync: library ↔ calculation list click linkage
+- JSON-based ammo storage
 - Add / Duplicate / Delete / Save / Import / Remove / Clear
 - List rows show drag table type + BC + bullet weight + muzzle velocity
 
@@ -187,7 +185,7 @@ A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](ht
 - **PBR**: 3 target heights (0.3 / 1.0 / 1.5 m)
 - **Supersonic range**: find distance where Mach drops to 1.2
 - **Vacuum mode**: no-drag simulation
-- **ICAO standard atmosphere**: altitude-linked temperature/pressure, one-click reset
+- **ICAO standard atmosphere**: one-click standard data injection
 - **Custom drag table**: arbitrary Mach-CD data point input
 - **Look angle**: uphill/downhill shooting support
 - **Twist rate + direction**: left/right-hand twist selection
@@ -199,11 +197,11 @@ A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](ht
 
 ### Unit System
 
-3 unit systems — Metric / Imperial / Mixed, covering all 16 PreferredUnits slots. UI labels switch with unit selection.
+3 unit systems — Metric / Imperial / Mixed
 
 ## Library Utilization
 
-### Fully Leveraged ✓
+### Fully Leveraged
 
 | Category | Library Feature | Usage |
 |----------|----------------|-------|
@@ -219,16 +217,16 @@ A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](ht
 | Calculator | `Calculator` (set_weapon_zero, barrel_elevation_for_target, fire) | Fully used |
 | Results | All 16 `TrajectoryData` fields | All displayed in data tables |
 | Interpolation | `HitResult.get_at()` | Heavily used across all 5 tabs |
-| Units | All 16 `PreferredUnits` slots | 3 unit systems with dynamic switching |
+| Units | All 16 `PreferredUnits` slots | Metric / Imperial / Mixed |
 
-### Intentionally Excluded ✗
+### Intentionally Excluded
 
 #### Physical Effects
 
 | Library Feature | Reason for Exclusion |
 |-----------------|---------------------|
-| Coriolis force | Requires lat/lon/azimuth input; ~10–30 cm effect beyond 800 m; deferred |
-| Multi-layer wind zones | Rare use case, UI complexity not justified |
+| Coriolis force | Requires lat/lon/azimuth input; ~10–30 cm effect beyond 800 m; niche scenario |
+| Multi-layer wind zones | Niche scenario |
 | Cant angle | Niche scenario |
 | Zero-atmosphere separation | Niche scenario (sea-level zero → mountain shooting) |
 
@@ -238,7 +236,7 @@ A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](ht
 |-----------------|---------------------|
 | Lofted trajectory `find_zero_angle(lofted=True)` | Mortar/howitzer domain, not small arms |
 | Max range `find_max_range()` | Not practically useful |
-| Engine config tuning `BaseEngineConfig` | Defaults cover 99.9% of cases; exposing to users adds confusion |
+| Engine config tuning `BaseEngineConfig` | Defaults cover the vast majority of cases |
 | Timestep recording `fire(time_step=N)` | Only needed for near-vertical trajectories |
 | Dense output `fire(dense_output=True)` | PCHIP interpolation accuracy is sufficient |
 | SciPy method switch DOP853/BDF/LSODA | RK4 is adequate for ballistic problems |
@@ -257,7 +255,7 @@ A desktop exterior ballistics calculator powered by [py-ballisticcalc 2.2.10](ht
 
 | Library Feature | Reason for Exclusion |
 |-----------------|---------------------|
-| `hit_result_as_plot()` | Cannot inject into TkAgg; custom rendering is superior (CFD rainbow, Chinese labels, blit interaction) |
+| `hit_result_as_plot()` | Cannot inject into TkAgg; custom rendering is superior (velocity gradient, Chinese labels, blit interaction) |
 | `hit_result_as_dataframe()` | Target output is `ttk.Treeview` (bucket-colored rows, Chinese headers), not DataFrame |
 | `enable_file_logging()` | App has no logging system; dialogs + status bar suffice |
 
