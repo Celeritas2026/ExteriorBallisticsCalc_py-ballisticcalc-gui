@@ -9,6 +9,7 @@ dist/
 build/
 *.spec
 !BallisticCalc.spec
+!BallisticCalc_en.spec
 
 # 备份
 副本/
