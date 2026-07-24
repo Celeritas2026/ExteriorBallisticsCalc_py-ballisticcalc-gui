@@ -130,7 +130,7 @@ class _ChineseToolbar(NavigationToolbar2Tk):
         tmp = tempfile.NamedTemporaryFile(suffix='.png', delete=False)
         try:
             tmp.close()
-            fig.savefig(tmp.name, dpi=150)
+            fig.savefig(tmp.name)
             subprocess.run([
                 'powershell', '-command',
                 f'Add-Type -AssemblyName System.Windows.Forms; '
