@@ -5001,3 +5001,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = BallisticApp(root)
     root.mainloop()
+
+# GitHub: https://github.com/Celeritas2026/ExteriorBallisticsCalc_py-ballisticcalc-gui
