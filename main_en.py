@@ -621,7 +621,7 @@ class BallisticApp:
         ttk.Label(grp, textvariable=self.ul_temperature, style="Small.TLabel").grid(row=r, column=2, sticky="w", padx=(1,4), pady=1)
         self._unit_label_widgets.append((self.ul_temperature, "temperature"))
         _lbl(grp, "Temp Modifier:", r, 3); self.tmod_ent = _ent(grp, "", 6, r, 4)
-        ttk.Label(grp, text="%/15°C", style="Small.TLabel").grid(row=r, column=5, sticky="w", padx=(1,4), pady=1)
+        ttk.Label(grp, text="/15°C", style="Small.TLabel").grid(row=r, column=5, sticky="w", padx=(1,4), pady=1)
         r += 1
         self.pwdr_var = tk.BooleanVar(value=False)
         ttk.Checkbutton(grp, text="Enable Powder Temperature Sensitivity", variable=self.pwdr_var).grid(
